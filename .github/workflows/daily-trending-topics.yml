@@ -1,0 +1,19 @@
+
+name: Daily Trending Topics
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  collect-topics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect trending topics
+        run: |
+          curl -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/collect-trending-topics" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
